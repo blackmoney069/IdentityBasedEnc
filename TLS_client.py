@@ -10,6 +10,7 @@ except socket.error as err:
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 
 secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname="localhost")
+# secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
 secure_socket.connect(("localhost",3002))
 
 print(secure_socket.recv(1024).decode())
