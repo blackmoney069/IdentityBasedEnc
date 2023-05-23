@@ -20,13 +20,16 @@ print(secure_socket.recv(1024).decode())
 print(secure_socket.recv(1024).decode())
 print(secure_socket.recv(1024).decode())
 
+authority_MPK = int(secure_socket.recv(1024).decode())
+print(authority_MPK, "AUTH MPK")
+
 identity =  input("Identity: ")
 
 secure_socket.send(identity.encode())
 
 print(secure_socket.recv(1024).decode())
-print(secure_socket.recv(1024).decode())
-
+secret_key = secure_socket.recv(1024).decode()
+print(secret_key, "SEC KEY")
 
 secure_socket.close()
 
@@ -45,6 +48,7 @@ print("Bob is now open to encrypted Communication")
 while True:
     listen = input("Do you want to continue listening?(Y/N)")
     if(listen=="N"):
+        bob_socket.close()
         break
 
     conn, addr = bob_socket.accept()
