@@ -30,7 +30,7 @@ while True:
     conn.send(bytes("---------------------------------",'utf-8'))
     conn.send(bytes("Welcome to Central Authority",'utf-8'))
     conn.send(bytes("---------------------------------\n",'utf-8'))
-    conn.send(bytes("Public Parameters || M = {} || ".format(auth.send_MPK()),'utf-8'))
+    conn.send(bytes("|| Public Parameters || M = {} || ".format(auth.send_MPK()),'utf-8'))
     conn.send(bytes("Please enter your identity",'utf-8'))
     identity = conn.recv(1024).decode('utf-8')
     
