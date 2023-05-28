@@ -1,5 +1,7 @@
 import socket
 import ssl
+import core.decryption as decryption
+import core.tools as tools
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,6 +26,7 @@ authority_MPK = int(secure_socket.recv(1024).decode())
 print(authority_MPK, "AUTH MPK")
 
 identity =  input("Identity: ")
+hashed_id = tools.hashIdentity(identity, authority_MPK)
 
 secure_socket.send(identity.encode())
 
@@ -56,3 +59,11 @@ while True:
 
     #  now the key exchange will happen
     conn.send("Hi from Bob".encode())
+    print(conn.recv(1024).decode())
+    encrypted_str = conn.recv(1024).decode()
+    print(conn.recv(1024).decode())
+    encrypted_list = eval(encrypted_str)
+    connection_key = decryption.decrypt_sequence(encrypted_list, secret_key, hashed_id, authority_MPK)
+    print(connection_key, "CONN KEY")
+
+    
