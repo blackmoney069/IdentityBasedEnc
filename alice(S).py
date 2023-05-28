@@ -25,6 +25,7 @@ print(secure_socket.recv(1024).decode())
 print(secure_socket.recv(1024).decode())
 
 authority_MPK = int(secure_socket.recv(1024).decode())
+secure_socket.send("CLOSE".encode())
 print(authority_MPK, "AUTH MPK")
 secure_socket.close()
 # Alice connected with authority to get the MPK

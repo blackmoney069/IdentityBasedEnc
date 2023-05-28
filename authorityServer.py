@@ -34,6 +34,9 @@ while True:
     conn.send(bytes("Please enter your identity",'utf-8'))
     conn.send(bytes("{}".format(auth.send_MPK()),'utf-8'))
     identity = conn.recv(1024).decode('utf-8')
+    if(identity=="CLOSE"):
+        conn.close()
+        continue
     
     # identity recieved as string from the client
     conn.send(bytes("---- Below is the secret key for your use || KEEP IT SAFE ----",'utf-8'))
