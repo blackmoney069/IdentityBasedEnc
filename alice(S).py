@@ -41,7 +41,7 @@ connection_key_int = random.getrandbits(16)
 # this is the connection key and this will be sent to bob using Identity Based Encryption
 print(connection_key_int, "INT CONN KEY")
 
-connection_key_bin = '{0:16b}'.format(connection_key_int)
+connection_key_bin = (bin(connection_key_int)[2:]).zfill(16)
 print(connection_key_bin, "BINARY")
 
 encrypted_key = encryption.encrypt(connection_key_bin, authority_MPK, hashed_recv_id)
