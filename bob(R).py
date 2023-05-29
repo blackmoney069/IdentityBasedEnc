@@ -58,12 +58,10 @@ while True:
     print("Bob listening to", addr)
 
     #  now the key exchange will happen
-    conn.send("Hi from Bob".encode())
-    print(conn.recv(1024).decode())
+    print("Alice is now sending encrypted connection key")
     encrypted_str = conn.recv(1024).decode()
-    print(conn.recv(1024).decode())
-    encrypted_list = eval(encrypted_str)
-    connection_key = decryption.decrypt_sequence(encrypted_list, secret_key, hashed_id, authority_MPK)
-    print(connection_key, "CONN KEY")
-
-    
+    print("recieved")
+    encrypted_list = eval(encrypted_str.split("|")[1])
+    # print("--",encrypted_str.split("|")[1],"--", type(encrypted_str))
+    connection_key = decryption.decrypt_sequence(encrypted_list, int(secret_key), hashed_id, authority_MPK)
+    print(int(connection_key, 2), "CONN KEY")
