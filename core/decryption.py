@@ -39,10 +39,11 @@ def decrypt_sequence(s,r, ID, MPK):
     for i in s:
         if r**2%MPK == ID%MPK:
             alpha = i[0] + 2*r
-        else:
+        elif r**2%MPK == -ID%MPK:
             alpha = i[1] + 2*r
         res = tools.jacobi_symbol(alpha, MPK)
-        if(res==1):
+        print(i, "->", res)
+        if(res==1 or res==0):
             output+="1"
         else:
             output+="0"
