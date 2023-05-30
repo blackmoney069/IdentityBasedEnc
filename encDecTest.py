@@ -19,12 +19,12 @@ hashed_id =  tools.hashIdentity(identity, authority_MPK)
 sec_key = auth.keyGeneration(identity)
 
 
-test_int = random.getrandbits(2)
-bit_sequence = (bin(test_int)[2:]).zfill(2)
+test_int = random.getrandbits(8)
+bit_sequence = (bin(test_int)[2:]).zfill(8)
 print("To be encrypted:", bit_sequence, test_int)
 
 arr = encryption.encrypt(bit_sequence, authority_MPK, hashed_id)
-print(arr)
+# print(arr)
 
 decrypted_seq = decryption.decrypt_sequence(arr, sec_key, hashed_id, authority_MPK)
 
