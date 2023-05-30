@@ -18,19 +18,19 @@ class Authority:
         self._P = 31
         self._Q = 23
         self.MPK = 713
-        while(True): 
-            p = random.randint(1000000,9999999)
-            if(p%4==3) and (is_prime(n=p)):
-                break
+        # while(True): 
+        #     p = random.randint(1000000,9999999)
+        #     if(p%4==3) and (is_prime(n=p)):
+        #         break
         
-        # Change: different loops for p and q choosing
-        while(True):
-            q = random.randint(1000000,9999999)
-            if q%4==3 and is_prime(n=q):
-                break
-        self._P = p
-        self._Q = q
-        self.MPK = p*q
+        # # Change: different loops for p and q choosing
+        # while(True):
+        #     q = random.randint(1000000,9999999)
+        #     if q%4==3 and is_prime(n=q):
+        #         break
+        # self._P = p
+        # self._Q = q
+        # self.MPK = p*q
         print("P- ",self._P)
         print("Q- ",self._Q)
 
@@ -55,6 +55,9 @@ class Authority:
         '''
         a = tools.hashIdentity(identity_string, self.MPK)%self.MPK
         r = pow(a,(self.MPK+5-self._P-self._Q)//8, self.MPK)
+
+        # print("R Square Test-", (r**2%self.MPK == a%self.MPK))
+        # print("R Square Test-", (r**2%self.MPK == -a%self.MPK))
         return r
     
 
