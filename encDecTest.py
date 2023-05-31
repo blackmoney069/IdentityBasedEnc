@@ -4,6 +4,8 @@ import core.tools as tools
 import core.encryptionScheme as encryption
 import core.decryption as decryption
 
+
+
 # Authority Parameters
 # authority_MPK = 713
 # auth_P = 31
@@ -16,10 +18,14 @@ print("P-Q test", auth_P*auth_Q==authority_MPK)
 # Reciever Parameters
 identity = "bains"
 hashed_id =  tools.hashIdentity(identity, authority_MPK)
+print("HASH ID", hashed_id)
 sec_key = auth.keyGeneration(identity)
+print(sec_key, "SEC_KEY")
+print(authority_MPK, "AUTH MPK")
 
 
 test_int = random.getrandbits(8)
+# test_int = 191
 bit_sequence = (bin(test_int)[2:]).zfill(8)
 print("To be encrypted:", bit_sequence, test_int)
 
