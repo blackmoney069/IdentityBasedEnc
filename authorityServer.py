@@ -36,7 +36,6 @@ while True:
     identity = conn.recv(1024).decode('utf-8')
     if(identity=="CLOSE"):
         conn.close()
-        continue
     
     # identity recieved as string from the client
     conn.send(bytes("---- Below is the secret key for your use || KEEP IT SAFE ----",'utf-8'))
