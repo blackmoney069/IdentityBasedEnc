@@ -68,22 +68,29 @@ def encrypt(string, MPK, ID):
             while (True):
                 t1 = random.randint(0, 999999)
                 jacobi1 = tools.jacobi_symbol(t1, MPK)
+                if (jacobi1 == 1):
+                    break
+            while (True):
                 t2 = random.randint(0, 999999)
                 jacobi2 = tools.jacobi_symbol(t2, MPK)
-                if (jacobi1 == 1 and jacobi2 == 1 and t1 != t2):
+                if (jacobi2 == 1 and t1 != t2):
                     break
         else:
             while (True):
                 t1 = random.randint(0, 999999)
                 jacobi1 = tools.jacobi_symbol(t1, MPK)
+                if (jacobi1 == -1):
+                    break
+            while (True):
                 t2 = random.randint(0, 999999)
                 jacobi2 = tools.jacobi_symbol(t2, MPK)
-                if (jacobi1 == -1 and jacobi2 == -1 and t1 != t2):
+                if (jacobi2 == -1 and t1 != t2):
                     break
 
-        c1 = (t1 + ID * mod_inverse(t1, MPK)) % MPK
-        c2 = (t2 - ID * mod_inverse(t1, MPK)) % MPK
+        c1 = (t1 + (ID * mod_inverse(t1, MPK)))%MPK
+        c2 = (t2 - (ID * mod_inverse(t2, MPK)))%MPK
         output.append((c1, c2))
+        print(i, "=>", (c1,c2), jacobi1,"--", t1,t2, "Mod->", mod_inverse(t1, MPK), mod_inverse(t2, MPK))
     return output
 
 
