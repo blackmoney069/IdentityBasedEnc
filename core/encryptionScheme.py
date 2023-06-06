@@ -90,7 +90,6 @@ def encrypt(string, MPK, ID):
         c1 = (t1 + (ID * mod_inverse(t1, MPK)))%MPK
         c2 = (t2 - (ID * mod_inverse(t2, MPK)))%MPK
         output.append((c1, c2))
-        print(i, "=>", (c1,c2), jacobi1,"--", t1,t2, "Mod->", mod_inverse(t1, MPK), mod_inverse(t2, MPK))
     return output
 
 

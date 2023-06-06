@@ -15,31 +15,29 @@ class Authority:
         '''
         Function to setup the authority and define the public and private variables
         '''
-        self._P = 31
-        self._Q = 23
-        self.MPK = 713
-        # while(True): 
-        #     p = random.randint(1000000,9999999)
-        #     if(p%4==3) and (is_prime(n=p)):
-        #         break
+        self._P = None
+        self._Q = None
+        self.MPK = None
+        while(True): 
+            p = random.randint(1000000,9999999)
+            if(p%4==3) and (is_prime(n=p)):
+                break
         
-        # # Change: different loops for p and q choosing
-        # while(True):
-        #     q = random.randint(1000000,9999999)
-        #     if q%4==3 and is_prime(n=q):
-        #         break
-        # self._P = p
-        # self._Q = q
-        # self.MPK = p*q
-        print("P- ",self._P)
-        print("Q- ",self._Q)
+        # Change: different loops for p and q choosing
+        while(True):
+            q = random.randint(1000000,9999999)
+            if q%4==3 and is_prime(n=q):
+                break
+        self._P = p
+        self._Q = q
+        self.MPK = p*q
 
     
     def send_MPK(self):
         '''
         Return the value of M to anyone accessing the Authority
         '''
-        return self.MPK, self._P, self._Q
+        return self.MPK
     # ToDo: remove _P and _Q from return statement, only for testing purpose
 
     
