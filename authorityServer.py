@@ -36,13 +36,13 @@ while True:
     identity = conn.recv(1024).decode('utf-8')
     if(identity=="CLOSE"):
         conn.close()
-    
+    else:
     # identity recieved as string from the client
-    conn.send(bytes("---- Below is the secret key for your use || KEEP IT SAFE ----",'utf-8'))
-    secret_key  = auth.keyGeneration(identity_string=identity)
-    print(secret_key)
-    conn.send(bytes(str(secret_key),'utf-8'))
+        conn.send(bytes("---- Below is the secret key for your use || KEEP IT SAFE ----",'utf-8'))
+        secret_key  = auth.keyGeneration(identity_string=identity)
+        print(secret_key)
+        conn.send(bytes(str(secret_key),'utf-8'))
 
-    conn.close()
+        conn.close()
 
 ssl_socket.close()
