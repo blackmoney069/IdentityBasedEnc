@@ -37,11 +37,11 @@ alice_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 alice_socket.connect(("localhost", 3003))
 
 # alice is now connected to bob, handshakes can be done
-connection_key_int = random.getrandbits(16)
+connection_key_int = random.getrandbits(32)
 # this is the connection key and this will be sent to bob using Identity Based Encryption
 print(connection_key_int, "INT CONN KEY")
 
-connection_key_bin = (bin(connection_key_int)[2:]).zfill(16)
+connection_key_bin = (bin(connection_key_int)[2:]).zfill(32)
 print(connection_key_bin, "BINARY")
 
 encrypted_key = encryption.encrypt(connection_key_bin, authority_MPK, hashed_recv_id)

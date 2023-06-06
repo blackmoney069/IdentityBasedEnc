@@ -32,7 +32,6 @@ secure_socket.send(identity.encode())
 
 print(secure_socket.recv(1024).decode())
 secret_key = secure_socket.recv(1024).decode()
-print(secret_key, "SEC KEY")
 
 secure_socket.close()
 
@@ -55,13 +54,13 @@ while True:
         break
 
     conn, addr = bob_socket.accept()
-    print("Bob listening to", addr)
+    print("Bob listening to alice at", addr)
 
     #  now the key exchange will happen
     print("Alice is now sending encrypted connection key")
-    encrypted_str = conn.recv(1024).decode()
-    print("recieved")
+    encrypted_str = conn.recv(2048).decode()
+    print("Encrypted Communication can start")
     encrypted_list = eval(encrypted_str.split("|")[1])
-    # print("--",encrypted_str.split("|")[1],"--", type(encrypted_str))
     connection_key = decryption.decrypt_sequence(encrypted_list, int(secret_key), hashed_id, authority_MPK)
-    print(int(connection_key, 2), "CONN KEY")
+    print(int(connection_key,2))
+

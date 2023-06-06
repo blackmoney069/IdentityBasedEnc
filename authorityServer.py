@@ -38,7 +38,7 @@ while True:
         conn.close()
     else:
     # identity recieved as string from the client
-        conn.send(bytes("---- Below is the secret key for your use || KEEP IT SAFE ----",'utf-8'))
+        conn.send(bytes("---- Secret key for your use is sent || KEEP IT SAFE ----",'utf-8'))
         secret_key  = auth.keyGeneration(identity_string=identity)
         print(secret_key)
         conn.send(bytes(str(secret_key),'utf-8'))
