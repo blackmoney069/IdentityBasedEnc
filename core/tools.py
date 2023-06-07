@@ -101,6 +101,16 @@ def extended_euclidean_algorithm(a, b):
 
     return (gcd, x, y)
 
+def bits_to_key(bit_sequence):
+    byte_sequence = bytearray()
+    for i in range(0, len(bit_sequence), 8):
+        byte = bit_sequence[i:i+8]
+        byte_value = int(byte, 2)
+        byte_sequence.append(byte_value)
+
+    key = bytes(byte_sequence)
+    return key
+
 
 if __name__ == "__main__":
     P = 4095731
