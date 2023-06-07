@@ -2,6 +2,13 @@ import socket
 import ssl
 import core.decryption as decryption
 import core.tools as tools
+from cryptography.fernet import Fernet
+import base64
+import select
+
+COLOR_RESET = '\033[0m'
+COLOR_GREEN = '\033[32m'
+COLOR_BLUE = '\033[34m'
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -58,9 +65,28 @@ while True:
 
     #  now the key exchange will happen
     print("Alice is now sending encrypted connection key")
-    encrypted_str = conn.recv(2048).decode()
-    print("Encrypted Communication can start")
+    encrypted_str = conn.recv(10240).decode()
+    print("Encrypted Communication can start, enter 'baskar()' to exit chat")
     encrypted_list = eval(encrypted_str.split("|")[1])
     connection_key = decryption.decrypt_sequence(encrypted_list, int(secret_key), hashed_id, authority_MPK)
-    print(int(connection_key,2))
+   
+    # connection key is retrieved and now symmtric encryption can be used
+    fernetKey = base64.urlsafe_b64encode(tools.bits_to_key(connection_key))
+    fernetObject = Fernet(fernetKey)
+
+    # fernet object created for encryption and decryption
+    print("------------------")
+    while(True):
+        rec = conn.recv(1024).decode()
+        if(fernetObject.decrypt(rec).decode().lower()=="baskar()"):
+            break
+        print(COLOR_GREEN + "ALICE : {}".format(fernetObject.decrypt(rec).decode())+ COLOR_RESET)
+        BobIn = input(COLOR_BLUE + "BOB : ")
+        print(COLOR_RESET, end="")
+        if(BobIn.lower()=="baskar()"):
+            encryptedMessage = fernetObject.encrypt(BobIn.encode())
+            conn.send(encryptedMessage)
+            break
+        encryptedMessage = fernetObject.encrypt(BobIn.encode())
+        conn.send(encryptedMessage)
 
