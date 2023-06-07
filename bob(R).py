@@ -1,10 +1,9 @@
 import socket
 import ssl
-import core.decryption as decryption
+import core.decryptionScheme as decryptionScheme
 import core.tools as tools
 from cryptography.fernet import Fernet
 import base64
-import select
 
 COLOR_RESET = '\033[0m'
 COLOR_GREEN = '\033[32m'
@@ -68,7 +67,7 @@ while True:
     encrypted_str = conn.recv(10240).decode()
     print("Encrypted Communication can start, enter 'baskar()' to exit chat")
     encrypted_list = eval(encrypted_str.split("|")[1])
-    connection_key = decryption.decrypt_sequence(encrypted_list, int(secret_key), hashed_id, authority_MPK)
+    connection_key = decryptionScheme.decrypt_sequence(encrypted_list, int(secret_key), hashed_id, authority_MPK)
    
     # connection key is retrieved and now symmtric encryption can be used
     fernetKey = base64.urlsafe_b64encode(tools.bits_to_key(connection_key))
