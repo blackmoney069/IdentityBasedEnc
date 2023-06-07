@@ -30,7 +30,7 @@ The PKG chooses:
 
 1. An RSA modulus n = pq , where p and q are primes and kept secret and follow the below condition.
     
-    [https://wikimedia.org/api/rest_v1/media/math/render/svg/7b94ca8ed83ec0941b39e5ca1db29f62397e0b0e](https://wikimedia.org/api/rest_v1/media/math/render/svg/7b94ca8ed83ec0941b39e5ca1db29f62397e0b0e)
+    ![https://wikimedia.org/api/rest_v1/media/math/render/svg/7b94ca8ed83ec0941b39e5ca1db29f62397e0b0e](https://wikimedia.org/api/rest_v1/media/math/render/svg/7b94ca8ed83ec0941b39e5ca1db29f62397e0b0e)
     
 2. A deterministic Public hash function is chosen, in our case we are using hashlib’s SHA-256 hashing.
 
@@ -42,9 +42,9 @@ To encrypt a bit (1/0) codes as (+1/-1) m, the user:
 2. chooses random t2 with m=(t2/n) ***(Jacobi symbol of t2 wrt n).***
 3. compute c1 and c2 as follows:
     
-    [https://wikimedia.org/api/rest_v1/media/math/render/svg/868014f845daa317fcc587d70efdb669dcf51834](https://wikimedia.org/api/rest_v1/media/math/render/svg/868014f845daa317fcc587d70efdb669dcf51834)
+    ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/868014f845daa317fcc587d70efdb669dcf51834)
     
-    [https://wikimedia.org/api/rest_v1/media/math/render/svg/3fd9186ea27e4114066ee7e28965b4a592c84f3f](https://wikimedia.org/api/rest_v1/media/math/render/svg/3fd9186ea27e4114066ee7e28965b4a592c84f3f)
+    ![https://wikimedia.org/api/rest_v1/media/math/render/svg/3fd9186ea27e4114066ee7e28965b4a592c84f3f](https://wikimedia.org/api/rest_v1/media/math/render/svg/3fd9186ea27e4114066ee7e28965b4a592c84f3f)
     
 4. send s = (c1,c2) to the user.
 
@@ -55,15 +55,15 @@ In the extract phase the users can retrive their private keys corresponding to t
 1. PKG derives a value a such that (a/m) ***(Jacobi Symbol of a wrt m)*** is 1 using iterative and deterministic use of hash function until the condition is met.
 2. computes the below given value
     
-    [https://wikimedia.org/api/rest_v1/media/math/render/svg/eccdb60144bf7cb39cfc34d845209a317f29dec2](https://wikimedia.org/api/rest_v1/media/math/render/svg/eccdb60144bf7cb39cfc34d845209a317f29dec2)
+    ![https://wikimedia.org/api/rest_v1/media/math/render/svg/eccdb60144bf7cb39cfc34d845209a317f29dec2](https://wikimedia.org/api/rest_v1/media/math/render/svg/eccdb60144bf7cb39cfc34d845209a317f29dec2)
     
     such that this satisfies either 
     
-    [https://wikimedia.org/api/rest_v1/media/math/render/svg/1f3e33dd47b64b428aa6509377a24bb94b4ce4c5](https://wikimedia.org/api/rest_v1/media/math/render/svg/1f3e33dd47b64b428aa6509377a24bb94b4ce4c5)
+    ![https://wikimedia.org/api/rest_v1/media/math/render/svg/1f3e33dd47b64b428aa6509377a24bb94b4ce4c5](https://wikimedia.org/api/rest_v1/media/math/render/svg/1f3e33dd47b64b428aa6509377a24bb94b4ce4c5)
     
     or
     
-    [https://wikimedia.org/api/rest_v1/media/math/render/svg/296bf645c447ae6d0729f409401b990891284191](https://wikimedia.org/api/rest_v1/media/math/render/svg/296bf645c447ae6d0729f409401b990891284191)
+    ![https://wikimedia.org/api/rest_v1/media/math/render/svg/296bf645c447ae6d0729f409401b990891284191](https://wikimedia.org/api/rest_v1/media/math/render/svg/296bf645c447ae6d0729f409401b990891284191)
     
 3. Transmits this value r to the user.
 
