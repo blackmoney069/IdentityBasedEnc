@@ -2,6 +2,10 @@ import socket
 import ssl
 import core.authorityRoles as authorityRoles
 
+# Define IP Addresses and PORTS
+AUTH_IP_ADDR = '127.0.0.1'
+AUTH_PORT = 3002
+
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     print ("Socket successfully created")
@@ -16,11 +20,11 @@ ssl_context.load_cert_chain(certfile='./certificates/authCert.crt', keyfile="./c
 auth = authorityRoles.Authority()
 
 
-normal_socket.bind(("",3002))
+normal_socket.bind((AUTH_IP_ADDR,AUTH_PORT))
 normal_socket.listen(5)
 ssl_socket = ssl_context.wrap_socket(normal_socket, server_side=True)
 # now the socket will listen to calls from the network
-print("Authority is listening securely at port 3002")
+print("Authority is listening securely at IP {} PORT {}".format(AUTH_IP_ADDR, AUTH_PORT))
 
 while True:
     conn, addr = ssl_socket.accept()

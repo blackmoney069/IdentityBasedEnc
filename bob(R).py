@@ -9,6 +9,12 @@ COLOR_RESET = '\033[0m'
 COLOR_GREEN = '\033[32m'
 COLOR_BLUE = '\033[34m'
 
+AUTH_IP_ADDR = '127.0.0.1'
+AUTH_PORT = 3002
+
+BOB_IP_ADDR = '127.0.0.1'
+BOB_PORT = 3003
+
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # print ("Socket successfully created")
@@ -20,7 +26,7 @@ ssl_context.load_verify_locations("./certificates/authCert.crt")
 
 secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname="localhost")
 # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
-secure_socket.connect(("localhost",3002))
+secure_socket.connect((AUTH_IP_ADDR, AUTH_PORT))
 
 print(secure_socket.recv(1024).decode())
 print(secure_socket.recv(1024).decode())
@@ -48,7 +54,7 @@ try:
 except socket.error as err:
     print ("socket creation failed with error %s" %(err))
 
-bob_socket.bind(('localhost', 3003))
+bob_socket.bind((BOB_IP_ADDR, BOB_PORT))
 bob_socket.listen(1)
 print("Bob is now open to encrypted Communication")
 
