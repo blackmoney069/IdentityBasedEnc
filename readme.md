@@ -18,7 +18,7 @@ For our implementation of the identity based encryption we are using:
 - socket module for socket programming
 - ssl module for using TLS on authority server
 - base64 string encodings
-- cryptography fernet module for symmtric encryption
+- cryptography fernet module for symmetric encryption
 
 ## Core Protocol
 
