@@ -8,6 +8,8 @@ One of the main advantages of IBE is its simplicity and ease of use. Since the p
 
 In conclusion, IBE is a useful alternative to traditional public key cryptography that eliminates the need for a separate PKI. While it has its limitations, it offers simplicity and ease of use for applications where users are not technically proficient or where a PKI is not practical.
 
+For more information, visit the link for the research paper titled "An Identity based encryption Scheme based on Quadratic Residue" [here](https://web.archive.org/web/20070206084247/http://www.cesg.gov.uk/site/ast/idpkc/media/ciren.pdf).
+
 ## Tools used:
 
 For our implementation of the identity based encryption we are using:
