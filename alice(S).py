@@ -11,11 +11,11 @@ COLOR_RESET = '\033[0m'
 COLOR_GREEN = '\033[32m'
 COLOR_BLUE = '\033[34m'
 
-AUTH_IP_ADDR = '127.0.0.1'
+AUTH_IP_ADDR = '10.10.100.37'
 AUTH_PORT = 3002
 
-BOB_IP_ADDR = '127.0.0.1'
-BOB_PORT = 3003
+BOB_IP_ADDR = '10.10.100.62'
+BOB_PORT = 3002
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,7 +26,7 @@ except socket.error as err:
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 ssl_context.load_verify_locations("./certificates/ca_certificate.")
 
-secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname="localhost")
+secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname="DESKTOP-FIPC5BG")
 # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
 # secure_socket.connect(("localhost",3002))
 secure_socket.connect((AUTH_IP_ADDR,AUTH_PORT))
