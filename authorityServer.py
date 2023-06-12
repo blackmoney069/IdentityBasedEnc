@@ -3,7 +3,7 @@ import ssl
 import core.authorityRoles as authorityRoles
 
 # Define IP Addresses and PORTS
-AUTH_IP_ADDR = '127.0.0.1'
+AUTH_IP_ADDR = '0.0.0.0'
 AUTH_PORT = 3002
 
 try:
@@ -13,7 +13,7 @@ except socket.error as err:
     print ("socket creation failed with error %s" %(err))
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain(certfile='./certificates/authCert.crt', keyfile="./certificates/server.key")
+ssl_context.load_cert_chain(certfile='./certificates/ca_certificate.pem', keyfile="./certificates/ca_private_key.pem")
 
 
 # create an instance of authority

@@ -24,7 +24,7 @@ except socket.error as err:
     print ("socket creation failed with error %s" %(err))
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-ssl_context.load_verify_locations("./certificates/authCert.crt")
+ssl_context.load_verify_locations("./certificates/ca_certificate.")
 
 secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname="localhost")
 # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
