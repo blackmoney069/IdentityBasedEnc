@@ -29,7 +29,7 @@ if(data['params']['mpk']==None):
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
     ssl_context.load_verify_locations("./certificates/ca_certificate.")
 
-    secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname="DESKTOP-FIPC5BG")
+    secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname= data['pkg']['hostname'])
     # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
     # secure_socket.connect(("localhost",3002))
     secure_socket.connect((AUTH_IP_ADDR,AUTH_PORT))
@@ -52,7 +52,7 @@ if(data['params']['mpk']==None):
 else:
     authority_MPK = data['params']['mpk']
 
-    
+
 recv_identity = input("Please enter the receiver identity : ")
 hashed_recv_id = tools.hashIdentity(recv_identity, authority_MPK)
 

@@ -29,6 +29,7 @@ AUTH_IP_ADDR = socket.gethostbyname(socket.gethostname())
 AUTH_PORT = 3002
 
 data['pkg']['ip'] = AUTH_IP_ADDR
+data['pkg']['hostname'] = socket.gethostname()
 
 with open('config.yaml', "w") as config:
     yaml.safe_dump(data, config)
