@@ -4,16 +4,18 @@ import core.decryptionScheme as decryptionScheme
 import core.tools as tools
 from cryptography.fernet import Fernet
 import base64
+import yaml
 
 COLOR_RESET = '\033[0m'
 COLOR_GREEN = '\033[32m'
 COLOR_BLUE = '\033[34m'
 
-AUTH_IP_ADDR = '10.10.100.37'
-AUTH_PORT = 3002
+with open('config.yaml','r') as config:
+    data = yaml.safe_load(config)
 
-BOB_IP_ADDR = '0.0.0.0'
-BOB_PORT = 3002
+AUTH_IP_ADDR = data['pkg']['ip']
+AUTH_PORT = data['pkg']['port']
+
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,7 +56,7 @@ try:
 except socket.error as err:
     print ("socket creation failed with error %s" %(err))
 
-bob_socket.bind((BOB_IP_ADDR, BOB_PORT))
+bob_socket.bind(('0.0.0.0', 3002))
 bob_socket.listen(1)
 print("Bob is now open to encrypted Communication")
 
@@ -65,11 +67,13 @@ while True:
         bob_socket.close()
         break
 
+    print("To connect, use the following IP : ", socket.gethostbyname(socket.gethostname()))
+
     conn, addr = bob_socket.accept()
-    print("Bob listening to alice at", addr)
+    print("You are connected to", addr)
 
     #  now the key exchange will happen
-    print("Alice is now sending encrypted connection key")
+    print("Sender is now sending encrypted connection key")
     encrypted_str = conn.recv(10240).decode()
     print("Encrypted Communication can start, enter 'baskar()' to exit chat")
     encrypted_list = eval(encrypted_str.split("|")[1])
@@ -85,8 +89,8 @@ while True:
         rec = conn.recv(1024).decode()
         if(fernetObject.decrypt(rec).decode().lower()=="baskar()"):
             break
-        print(COLOR_GREEN + "ALICE : {}".format(fernetObject.decrypt(rec).decode())+ COLOR_RESET)
-        BobIn = input(COLOR_BLUE + "BOB : ")
+        print(COLOR_GREEN + "SENDER : {}".format(fernetObject.decrypt(rec).decode())+ COLOR_RESET)
+        BobIn = input(COLOR_BLUE + "ME : ")
         print(COLOR_RESET, end="")
         if(BobIn.lower()=="baskar()"):
             encryptedMessage = fernetObject.encrypt(BobIn.encode())
