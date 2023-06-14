@@ -1,10 +1,7 @@
 import socket
 import ssl
 import core.authorityRoles as authorityRoles
-
-# Define IP Addresses and PORTS
-AUTH_IP_ADDR = '0.0.0.0'
-AUTH_PORT = 3002
+import yaml
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,9 +17,23 @@ ssl_context.load_cert_chain(certfile='./certificates/ca_certificate.pem', keyfil
 auth = authorityRoles.Authority()
 
 
-normal_socket.bind((AUTH_IP_ADDR,AUTH_PORT))
+normal_socket.bind(("0.0.0.0",3002))
 normal_socket.listen(5)
 ssl_socket = ssl_context.wrap_socket(normal_socket, server_side=True)
+
+with open('config.yaml', "r") as config:
+    data = yaml.safe_load(config)
+
+# Define IP Addresses and PORTS
+AUTH_IP_ADDR = socket.gethostbyname(socket.gethostname())
+AUTH_PORT = 3002
+
+data['pkg']['ip'] = AUTH_IP_ADDR
+
+with open('config.yaml', "w") as config:
+    yaml.safe_dump(data, config)
+
+
 # now the socket will listen to calls from the network
 print("Authority is listening securely at IP {} PORT {}".format(AUTH_IP_ADDR, AUTH_PORT))
 

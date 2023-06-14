@@ -1,0 +1,5 @@
+params:
+  mpk: 0
+pkg:
+  ip: 192.168.56.1
+  port: 3002
