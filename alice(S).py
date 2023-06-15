@@ -27,7 +27,7 @@ if(data['params']['mpk']==None):
         print ("socket creation failed with error %s" %(err))
 
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-    ssl_context.load_verify_locations("./certificates/ca_certificate.")
+    ssl_context.load_verify_locations("./certificates/ca_certificate.pem")
 
     secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname= data['pkg']['hostname'])
     # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)

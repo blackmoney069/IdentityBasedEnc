@@ -16,7 +16,6 @@ ssl_context.load_cert_chain(certfile='./certificates/ca_certificate.pem', keyfil
 # create an instance of authority
 auth = authorityRoles.Authority()
 
-
 normal_socket.bind(("0.0.0.0",3002))
 normal_socket.listen(5)
 ssl_socket = ssl_context.wrap_socket(normal_socket, server_side=True)
@@ -25,7 +24,7 @@ with open('config.yaml', "r") as config:
     data = yaml.safe_load(config)
 
 # Define IP Addresses and PORTS
-AUTH_IP_ADDR = socket.gethostbyname(socket.gethostname())
+AUTH_IP_ADDR = '10.10.100.37'
 AUTH_PORT = 3002
 
 data['pkg']['ip'] = AUTH_IP_ADDR

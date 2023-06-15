@@ -2,5 +2,5 @@ params:
   mpk: null
 pkg:
   hostname: DESKTOP-FIPC5BG
-  ip: 192.168.56.1
+  ip: 10.10.100.37
   port: 3002
