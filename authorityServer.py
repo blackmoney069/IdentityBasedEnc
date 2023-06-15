@@ -2,6 +2,8 @@ import socket
 import ssl
 import core.authorityRoles as authorityRoles
 import yaml
+import netifaces
+
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,8 +25,16 @@ ssl_socket = ssl_context.wrap_socket(normal_socket, server_side=True)
 with open('config.yaml', "r") as config:
     data = yaml.safe_load(config)
 
+interfaces = netifaces.interfaces()
+for interface in interfaces:
+    addresses = netifaces.ifaddresses(interface)
+    if netifaces.AF_INET in addresses:
+        ip_addresses = [addr['addr'] for addr in addresses[netifaces.AF_INET]]
+        if(ip_addresses[0][:9]=="10.10.100"):
+            AUTH_IP_ADDR = ip_addresses[0]
+
 # Define IP Addresses and PORTS
-AUTH_IP_ADDR = '10.10.100.37'
+# AUTH_IP_ADDR = socket.gethostbyname(socket.gethostname())
 AUTH_PORT = 3002
 
 data['pkg']['ip'] = AUTH_IP_ADDR

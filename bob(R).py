@@ -4,6 +4,7 @@ import core.decryptionScheme as decryptionScheme
 import core.tools as tools
 from cryptography.fernet import Fernet
 import base64
+import netifaces
 import yaml
 
 COLOR_RESET = '\033[0m'
@@ -16,6 +17,14 @@ with open('config.yaml','r') as config:
 AUTH_IP_ADDR = data['pkg']['ip']
 AUTH_PORT = data['pkg']['port']
 
+interfaces = netifaces.interfaces()
+
+for interface in interfaces:
+    addresses = netifaces.ifaddresses(interface)
+    if netifaces.AF_INET in addresses:
+        ip_addresses = [addr['addr'] for addr in addresses[netifaces.AF_INET]]
+        if(ip_addresses[0][:9]=="10.10.100"):
+            BOB_IP_ADDR = ip_addresses[0]
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -67,8 +76,7 @@ while True:
         bob_socket.close()
         break
 
-    print("To connect, use the following IP : ", socket.gethostbyname(socket.gethostname()))
-
+    print("To connect, use the following IP : ", BOB_IP_ADDR)
     conn, addr = bob_socket.accept()
     print("You are connected to", addr)
 
