@@ -87,7 +87,9 @@ We are using Identity based encryption for key exchange only and using symmetric
     - **tools.py** : all the mathematical tools required in encryption, decryption and auth setup. These includes jacobiSymbol, identityHashing algorithm, modInverse function, bitsToKey conversion algorithm.
 - certificates
     
-    This includes self-signed CA certitificates for Transport level security while communicating between user and authority which is sending the private keys
+    This includes self-signed CA certitificates for Transport level security while communicating between user and authority which is sending the private keys.
+
+  **⚠️ NOTE :** TLS is not a part of the Identity Based Encryption, it is included to make sure that the key transfer between the authority server and the user is safe and secure.
     
 - bob.py
     
