@@ -12,52 +12,34 @@ COLOR_RESET = '\033[0m'
 COLOR_GREEN = '\033[32m'
 COLOR_BLUE = '\033[34m'
 
-with open("config.yaml","r") as config:
-    data = yaml.safe_load(config)
 
-AUTH_IP_ADDR = data['pkg']['ip']
-AUTH_PORT = data['pkg']['port']
-BOB_PORT = 3002
+AUTH_IP_ADDR = "127.0.0.1"
+AUTH_PORT = 3002
+BOB_PORT = 3003
 
-if(data['params']['mpk']==None):
-    try:
-        normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # print ("Socket successfully created")
-    except socket.error as err:
-        print ("socket creation failed with error %s" %(err))
+try:
+    normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # print ("Socket successfully created")
+except socket.error as err:
+    print ("socket creation failed with error %s" %(err))
 
-    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-    ssl_context.load_verify_locations("./certificates/ca_certificate.pem")
+normal_socket.connect((AUTH_IP_ADDR,AUTH_PORT))
 
-    secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname= data['pkg']['hostname'])
-    # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
-    # secure_socket.connect(("localhost",3002))
-    secure_socket.connect((AUTH_IP_ADDR,AUTH_PORT))
+print(normal_socket.recv(2048).decode())
 
-    print(secure_socket.recv(1024).decode())
-    print(secure_socket.recv(1024).decode())
-    print(secure_socket.recv(1024).decode())
-    print(secure_socket.recv(1024).decode())
-    print(secure_socket.recv(1024).decode())
+authority_MPK = int(normal_socket.recv(1024).decode())
+normal_socket.send("CLOSE".encode())
+print(COLOR_GREEN + "Recieved AUTH MPK", authority_MPK, COLOR_RESET)
+normal_socket.close()
 
-    authority_MPK = int(secure_socket.recv(1024).decode())
-    secure_socket.send("CLOSE".encode())
-    print(authority_MPK, "AUTH MPK")
-    secure_socket.close()
-
-    with open('config.yaml','w') as config:
-        data["params"]['mpk'] = authority_MPK
-        yaml.safe_dump(data, config)
 # Alice connected with authority to get the MPK
-else:
-    authority_MPK = data['params']['mpk']
-
 
 recv_identity = input("Please enter the receiver identity : ")
 hashed_recv_id = tools.hashIdentity(recv_identity, authority_MPK)
 
 alice_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-BOB_IP_ADDR = input("Please enter the reciever's IP address : ")
+BOB_IP_ADDR = "127.0.0.1"
+print("Please enter the reciever's IP address : 127.0.0.1")
 alice_socket.connect((BOB_IP_ADDR, BOB_PORT))
 
 # alice is now connected to bob, handshakes can be done

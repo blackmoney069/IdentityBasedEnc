@@ -1,30 +1,16 @@
 import socket
-import ssl
 import core.decryptionScheme as decryptionScheme
 import core.tools as tools
 from cryptography.fernet import Fernet
 import base64
-import netifaces
-import yaml
 
 COLOR_RESET = '\033[0m'
 COLOR_GREEN = '\033[32m'
 COLOR_BLUE = '\033[34m'
 
-with open('config.yaml','r') as config:
-    data = yaml.safe_load(config)
 
-AUTH_IP_ADDR = data['pkg']['ip']
-AUTH_PORT = data['pkg']['port']
-
-interfaces = netifaces.interfaces()
-
-for interface in interfaces:
-    addresses = netifaces.ifaddresses(interface)
-    if netifaces.AF_INET in addresses:
-        ip_addresses = [addr['addr'] for addr in addresses[netifaces.AF_INET]]
-        if(ip_addresses[0][:9]=="10.10.100"):
-            BOB_IP_ADDR = ip_addresses[0]
+AUTH_IP_ADDR = "127.0.0.1"
+AUTH_PORT = 3002
 
 try:
     normal_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -32,31 +18,24 @@ try:
 except socket.error as err:
     print ("socket creation failed with error %s" %(err))
 
-ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-ssl_context.load_verify_locations("./certificates/ca_certificate.pem")
 
-secure_socket = ssl_context.wrap_socket(normal_socket, server_side=False, server_hostname=data['pkg']['hostname'])
 # secure_socket = ssl.wrap_socket(normal_socket, server_side=False)
-secure_socket.connect((AUTH_IP_ADDR, AUTH_PORT))
+normal_socket.connect((AUTH_IP_ADDR, AUTH_PORT))
 
-print(secure_socket.recv(1024).decode())
-print(secure_socket.recv(1024).decode())
-print(secure_socket.recv(1024).decode())
-print(secure_socket.recv(1024).decode())
-print(secure_socket.recv(1024).decode())
+print(normal_socket.recv(2048).decode())
 
-authority_MPK = int(secure_socket.recv(1024).decode())
-print(authority_MPK, "AUTH MPK")
+authority_MPK = int(normal_socket.recv(1024).decode())
+print(COLOR_GREEN + "Recieved AUTH MPK", authority_MPK, COLOR_RESET)
 
 identity =  input("Identity: ")
 hashed_id = tools.hashIdentity(identity, authority_MPK)
 
-secure_socket.send(identity.encode())
+normal_socket.send(identity.encode())
 
-print(secure_socket.recv(1024).decode())
-secret_key = secure_socket.recv(1024).decode()
+print(normal_socket.recv(1024).decode())
+secret_key = normal_socket.recv(1024).decode()
 
-secure_socket.close()
+normal_socket.close()
 
 #  Now bob has received its secret key and alice can send any data to it now:
 
@@ -65,7 +44,10 @@ try:
 except socket.error as err:
     print ("socket creation failed with error %s" %(err))
 
-bob_socket.bind(('0.0.0.0', 3002))
+BOB_IP_ADDR = "127.0.0.1"
+BOB_PORT = 3003
+
+bob_socket.bind(('0.0.0.0', 3003))
 bob_socket.listen(1)
 print("Bob is now open to encrypted Communication")
 
@@ -76,7 +58,7 @@ while True:
         bob_socket.close()
         break
 
-    print("To connect, use the following IP : ", BOB_IP_ADDR)
+    print("To connect, use the following IP and port : ", BOB_IP_ADDR, BOB_PORT)
     conn, addr = bob_socket.accept()
     print("You are connected to", addr)
 
